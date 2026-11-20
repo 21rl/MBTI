@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#edf6fc">
+<title>Career Compass | 커리어 성향 진단</title>
+<style>
+:root{
+  --navy:#173653;--blue:#2878b9;--blue2:#5da7d8;--sky:#eaf5fc;
+  --pale:#f5faff;--white:#fff;--ink:#203449;--muted:#6c8092;
+  --line:#dce8f1;--soft:#f1f7fb;--shadow:0 18px 48px rgba(34,79,113,.09);
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#edf6fc 0,#f7fbfe 340px,#f7fbfe 100%);color:var(--ink);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #8cc7ee;outline-offset:3px}
+.shell{max-width:1000px;margin:0 auto;padding:26px 22px 64px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+.brand{font-size:13px;font-weight:850;letter-spacing:.16em;color:var(--navy)}
+.header-note{font-size:11px;color:var(--muted);border:1px solid var(--line);background:#ffffffa8;padding:6px 11px;border-radius:30px}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,48px)}
+.hero{min-height:510px;display:grid;grid-template-columns:1.05fr .95fr;gap:35px;align-items:center}
+.kicker{font-size:12px;font-weight:850;letter-spacing:.15em;color:var(--blue);margin-bottom:15px}
+h1{font-size:clamp(34px,5.3vw,54px);line-height:1.15;letter-spacing:-.055em;color:var(--navy);margin:0 0 18px}
+.lead{font-size:16px;color:#5f7488;line-height:1.8;max-width:470px;margin:0 0 27px}
+.primary{border:0;background:var(--blue);color:#fff;padding:14px 23px;border-radius:12px;font-weight:800;box-shadow:0 7px 16px #2878b926;transition:.18s}
+.primary:hover{background:#1d659f;transform:translateY(-1px)}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.text-button{border:0;background:transparent;color:var(--blue);font-weight:750;padding:12px 5px}
+.saved-note{font-size:12px;color:var(--muted);margin-top:13px}
+.hero-visual{min-height:320px;border-radius:22px;background:linear-gradient(145deg,#d9edfa,#f0f8fd 65%,#e3f1fb);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.visual-circle{position:absolute;border:1px solid #ffffffc9;border-radius:50%}
+.visual-circle.one{width:260px;height:260px}.visual-circle.two{width:190px;height:190px}.visual-circle.three{width:120px;height:120px}
+.compass{width:112px;height:112px;border-radius:32px;background:#fff;box-shadow:0 14px 35px #376f9b24;display:grid;place-items:center;z-index:1;color:var(--blue);font-size:53px;transform:rotate(-9deg)}
+.float-card{position:absolute;background:#ffffffd9;backdrop-filter:blur(6px);border:1px solid #fff;border-radius:13px;padding:10px 13px;color:#42627d;font-size:12px;font-weight:750;box-shadow:0 7px 20px #376f9b12}
+.fc1{top:17%;left:8%}.fc2{right:7%;top:25%}.fc3{left:13%;bottom:17%}.fc4{right:9%;bottom:14%}
+.section-kicker{font-size:12px;color:var(--blue);font-weight:850;letter-spacing:.14em;margin-bottom:10px}
+h2{font-size:clamp(23px,3vw,30px);line-height:1.35;letter-spacing:-.04em;color:var(--navy);margin:0 0 8px}
+.muted{color:var(--muted);font-size:14px;margin:0}
+.progress-wrap{position:sticky;top:0;z-index:5;background:#f7fbf9f2;padding:12px 0 16px;margin:-8px 0 25px;backdrop-filter:blur(8px)}
+.progress-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:750;margin-bottom:8px}
+.track{height:7px;background:#e9f1f7;border-radius:20px;overflow:hidden}
+.fill{height:100%;width:10%;background:linear-gradient(90deg,var(--blue),#77bce7);border-radius:20px;transition:width .25s}
+.question-head{margin-bottom:22px}.qnum{font-size:11px;font-weight:850;color:var(--blue);letter-spacing:.14em;margin-bottom:9px}
+.question{font-size:clamp(22px,3.5vw,29px);font-weight:850;line-height:1.35;letter-spacing:-.045em;color:var(--navy);margin:0 0 9px}
+.instruction{font-size:13px;color:var(--muted);margin:0}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.choice{width:100%;min-height:88px;text-align:left;padding:15px 16px;border:1px solid var(--line);background:#fff;border-radius:14px;display:flex;gap:12px;align-items:flex-start;color:var(--ink);transition:.16s}
+.choice:hover{border-color:#9fc8e4;background:#fafdff}
+.choice.selected{border:2px solid var(--blue);padding:14px 15px;background:#f0f8fe;box-shadow:0 0 0 3px #dceffc}
+.check{width:22px;height:22px;flex:0 0 22px;border:1.5px solid #b7c9d8;border-radius:7px;display:grid;place-items:center;color:transparent;font-size:14px;font-weight:900;margin-top:1px}
+.choice.selected .check{background:var(--blue);border-color:var(--blue);color:#fff}
+.choice-copy{font-size:14px;font-weight:650;line-height:1.55}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:25px}
+.back{border:0;background:transparent;color:var(--muted);padding:12px 4px;font-weight:700}
+.next{min-width:140px}.next:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.result-main{grid-column:1/-1;background:linear-gradient(130deg,#edf7fd,#f8fbfe);border:1px solid #dcecf7;border-radius:18px;padding:24px;display:flex;gap:18px;align-items:center}
+.persona-icon{width:78px;height:78px;flex:0 0 78px;border-radius:23px;background:#fff;display:grid;place-items:center;font-size:37px;box-shadow:0 8px 22px #376f9b15}
+.persona-label{font-size:11px;letter-spacing:.14em;color:var(--blue);font-weight:850}
+.persona-name{font-size:clamp(25px,4vw,34px);font-weight:900;letter-spacing:-.05em;color:var(--navy);margin:3px 0 4px}
+.persona-desc{font-size:14px;color:#5c7184;line-height:1.75;margin:0}
+.result-block{border:1px solid var(--line);border-radius:16px;padding:19px;background:#fff}
+.block-title{font-size:14px;font-weight:850;color:var(--navy);margin:0 0 12px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font-size:12px;font-weight:750;color:#32658b;background:#edf6fc;border:1px solid #e1eff8;border-radius:30px;padding:7px 10px}
+.job{padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:13px;font-weight:700;margin-top:8px;background:#fbfdff}
+.score-row{margin-top:12px}.score-meta{display:flex;justify-content:space-between;font-size:12px;color:#536c80;margin-bottom:5px}.score-track{height:6px;border-radius:10px;background:#edf2f6;overflow:hidden}.score-fill{height:100%;background:#5b9dca;border-radius:10px}
+.growth{font-size:13px;color:#5c7184;line-height:1.8;margin:0}
+.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.secondary{border:1px solid #cddfeb;background:#fff;color:var(--blue);padding:13px 18px;border-radius:12px;font-weight:800}
+.disclaimer{font-size:11px;color:#8494a2;margin-top:19px;line-height:1.7}
+.saved-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#eef7fd;border:1px solid #d7eaf7;border-radius:13px;padding:12px 15px;margin-bottom:18px;font-size:12px;color:#416783}
+.hidden{display:none!important}
+@media(max-width:650px){
+ .shell{padding:18px 14px 42px}header{margin-bottom:18px}.panel{border-radius:19px;padding:23px 19px}
+ .hero{grid-template-columns:1fr;gap:22px;min-height:unset}.hero-visual{min-height:215px;grid-row:1}
+ .visual-circle.one{width:190px;height:190px}.visual-circle.two{width:140px;height:140px}.visual-circle.three{width:90px;height:90px}
+ .compass{width:82px;height:82px;border-radius:25px;font-size:39px}
+ .fc1{top:12%;left:5%}.fc2{right:5%;top:15%}.fc3{left:6%;bottom:10%}.fc4{right:6%;bottom:9%}
+ .choices{grid-template-columns:1fr;gap:9px}.choice{min-height:70px;padding:13px}.choice.selected{padding:12px}
+ .result-grid{grid-template-columns:1fr;gap:13px}.result-main{grid-column:auto;padding:18px;align-items:flex-start}
+ .persona-icon{width:62px;height:62px;flex-basis:62px;border-radius:19px;font-size:30px}
+ .result-actions>*{flex:1}.progress-wrap{margin-top:-4px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header><div class="brand">CAREER COMPASS</div><div class="header-note">CAREER PERSONALITY TEST</div></header>
+<main id="app" class="panel" aria-live="polite"></main>
+</div>
+<script>
+const STORE_KEY="careerCompass.latestResult.v2";
+const dimensions=["P","A","C","S"];
+const personas=[
+ {id:"P",label:"THE TRAILBLAZER",name:"판을 여는 개척자",icon:"✦",
+  desc:"익숙한 답을 반복하기보다 새로운 가능성을 발견하고 직접 실험하는 사람입니다. 불확실한 상황에서도 먼저 움직이며, 작은 시도를 통해 다음 기회를 만들어 갑니다.",
+  strengths:["기회 포착","빠른 실행","변화 적응"],jobs:["신사업·사업개발 매니저","서비스·프로덕트 기획자","브랜드·그로스 마케터"],
+  growth:"아이디어를 빠르게 현실로 옮기는 강점에 우선순위 설정과 성과 측정 습관을 더해 보세요. 시도한 경험을 회고하고 다음 실행으로 연결하면 추진력이 더 단단해집니다.",
+  environment:"자율성과 실험을 존중하고 변화가 활발한 환경"},
+ {id:"A",label:"THE INVESTIGATOR",name:"본질을 파고드는 탐구자",icon:"⌕",
+  desc:"겉으로 드러난 현상보다 그 안의 원인과 구조를 이해하려는 사람입니다. 정보를 비교하고 논리를 세워 복잡한 문제를 명료하게 만드는 과정에서 강점을 발휘합니다.",
+  strengths:["논리적 사고","문제 구조화","전문성 축적"],jobs:["비즈니스·데이터 분석가","전략·시장 리서처","재무·리스크 분석 담당자"],
+  growth:"깊이 있는 분석을 실제 의사결정으로 이어 보세요. 핵심 내용을 짧고 명확하게 전달하고, 분석 결과를 실행 가능한 제안으로 바꾸는 연습이 도움이 됩니다.",
+  environment:"집중할 시간이 보장되고 판단의 근거와 전문성을 존중하는 환경"},
+ {id:"C",label:"THE CONNECTOR",name:"사이를 잇는 조율자",icon:"◉",
+  desc:"사람마다 다른 생각과 필요를 읽고 공통의 방향을 찾아내는 사람입니다. 관계를 형성하고 협업의 흐름을 만드는 데서 에너지를 얻으며, 함께할 때 더 큰 결과를 만들어 냅니다.",
+  strengths:["공감과 소통","협업 조율","관계 형성"],jobs:["인사·조직문화 담당자","파트너십·B2B 영업 매니저","고객경험·커뮤니티 기획자"],
+  growth:"다양한 의견을 연결하는 능력에 명확한 의사결정 기준을 더해 보세요. 모두를 만족시키기 어려운 순간에도 핵심 목표를 기준으로 선택하는 연습이 필요합니다.",
+  environment:"사람 간 교류가 활발하고 협력과 관계 형성이 중요한 환경"},
+ {id:"S",label:"THE ARCHITECT",name:"흐름을 설계하는 구축자",icon:"▦",
+  desc:"막연한 목표를 실행 가능한 단계로 나누고 끝까지 완성하는 사람입니다. 일의 흐름을 정돈하고 기준을 세워, 꾸준하고 신뢰할 수 있는 결과를 만드는 데 강점이 있습니다.",
+  strengths:["계획과 관리","책임감과 꾸준함","운영 최적화"],jobs:["프로젝트 매니저","경영관리·사업운영 담당자","프로세스·품질 관리 담당자"],
+  growth:"체계적으로 완성하는 능력에 유연한 재설계 역량을 더해 보세요. 익숙한 절차가 더 이상 효과적이지 않을 때 작은 개선안을 먼저 시험해 보는 것이 좋습니다.",
+  environment:"목표와 역할이 분명하고 지속적으로 운영 품질을 높일 수 있는 환경"}
+];
+// 각 선택지는 한 유형에만 점수를 주지 않는다. 선택 조합으로 복합적인 성향을 계산한다.
+const rawQuestions=[
+ {q:"새로운 프로젝트를 맡았을 때, 가장 먼저 하고 싶은 일은?",a:[
+  ["작게라도 시제품이나 초안을 만들어 반응을 확인한다",[3,0,0,1]],
+  ["관련 자료를 모아 문제의 원인과 맥락을 파악한다",[0,3,0,1]],
+  ["함께할 사람들의 기대와 관점을 먼저 듣는다",[0,1,3,0]],
+  ["목표와 마감일을 정하고 진행 단계를 나눈다",[0,1,0,3]]]},
+ {q:"회의가 끝난 뒤 가장 먼저 확인하는 것은?",a:[
+  ["논의에서 놓친 가능성이나 새로운 아이디어",[2,2,0,0]],
+  ["서로 다르게 이해한 부분과 합의된 내용",[0,1,3,1]],
+  ["누가 무엇을 언제까지 할지 정리된 실행 항목",[0,0,1,3]],
+  ["결정의 근거가 충분했는지, 더 확인할 데이터",[0,3,1,0]]]},
+ {q:"일이 예상과 다르게 흘러갈 때 나의 반응은?",a:[
+  ["다른 방법을 빠르게 시도해 돌파구를 찾는다",[3,0,0,1]],
+  ["상황을 공유하고 관련된 사람들과 해결책을 찾는다",[0,1,3,0]],
+  ["계획을 다시 짜고 현실적인 순서를 정한다",[0,1,0,3]],
+  ["무엇이 원인이었는지 사실과 데이터를 확인한다",[0,3,0,1]]]},
+ {q:"다음 중 더 보람 있게 느껴지는 성과는?",a:[
+  ["없던 기회를 찾아 실제 결과로 만든 일",[3,1,0,0]],
+  ["복잡한 문제를 명확하게 설명하고 해결한 일",[0,3,0,1]],
+  ["서로 다른 사람들이 한 방향으로 움직이게 한 일",[0,0,3,1]],
+  ["흩어진 업무를 정돈해 안정적인 결과를 만든 일",[0,1,0,3]]]},
+ {q:"팀에서 의견이 팽팽하게 갈릴 때 나는?",a:[
+  ["기존 논의와 다른 대안을 제안한다",[3,1,0,0]],
+  ["각 주장의 근거와 실제 영향을 비교한다",[0,3,1,0]],
+  ["각자가 중요하게 여기는 조건부터 확인한다",[0,0,3,1]],
+  ["결정 기준과 후속 절차를 정해 논의를 좁힌다",[1,0,1,3]]]},
+ {q:"어떤 업무 환경에서 집중력이 가장 잘 발휘되나?",a:[
+  ["정해진 답이 적고 시도할 여지가 많은 환경",[3,0,1,0]],
+  ["방해받지 않고 깊이 파고들 수 있는 환경",[0,3,0,1]],
+  ["동료와 자주 의견을 주고받는 환경",[0,0,3,1]],
+  ["역할과 기준이 명확해 흐름을 예측할 수 있는 환경",[0,1,0,3]]]},
+ {q:"새로운 것을 배울 때 나에게 잘 맞는 방식은?",a:[
+  ["직접 해보고 실패와 피드백을 통해 익힌다",[3,0,1,0]],
+  ["원리와 구조를 이해한 다음 응용한다",[0,3,0,1]],
+  ["다른 사람과 이야기하며 관점을 넓힌다",[0,1,3,0]],
+  ["학습 순서를 정하고 반복하며 숙련도를 높인다",[0,1,0,3]]]},
+ {q:"주변 사람들이 나에게 자주 기대하는 역할은?",a:[
+  ["막힌 상황에서 새로운 방향을 제시하는 역할",[3,1,0,0]],
+  ["복잡한 정보를 정리하고 판단을 돕는 역할",[0,3,1,0]],
+  ["사람들의 의견을 듣고 관계를 부드럽게 잇는 역할",[0,0,3,1]],
+  ["일정과 세부 사항을 챙겨 마무리하는 역할",[0,1,0,3]]]},
+ {q:"업무를 선택할 때 상대적으로 더 중요하게 보는 것은?",a:[
+  ["성장 가능성과 새로운 도전",[3,0,1,0]],
+  ["전문성을 쌓고 깊이 있게 기여할 기회",[0,3,0,1]],
+  ["함께하는 사람과 일의 사회적 의미",[0,1,3,0]],
+  ["역할의 명확성 및 꾸준히 성과를 내는 구조",[0,1,0,3]]]},
+ {q:"앞으로 커리어에서 가장 더 키우고 싶은 능력은?",a:[
+  ["불확실한 상황에서도 기회를 찾아 움직이는 힘",[3,0,0,1]],
+  ["근거를 바탕으로 핵심 문제를 판단하는 힘",[0,3,1,0]],
+  ["다른 사람을 이해하고 협업을 이끄는 힘",[0,0,3,1]],
+  ["여러 일을 체계적으로 관리해 결과를 만드는 힘",[0,1,0,3]]]}
+];
+let questions=[],index=0,answers=Array(10).fill(null),scores=[0,0,0,0],saved=null,lastResult=null;
+const app=document.getElementById("app");
+function shuffle(list){let a=[...list];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function prepareQuestions(){questions=rawQuestions.map(q=>({...q,a:shuffle(q.a.map((x,i)=>({text:x[0],weight:x[1],id:i})))}))}
+function readSaved(){try{let raw=localStorage.getItem(STORE_KEY);return raw?JSON.parse(raw):null}catch(e){return null}}
+function intro(){
+ saved=readSaved();
+ app.innerHTML=`<section class="hero"><div class="hero-copy"><div class="kicker">DISCOVER YOUR CAREER DNA</div><h1>나의 일하는 방식,<br>어떤 유형에 가까울까?</h1><p class="lead">선택의 조합으로 일할 때의 동기와 강점을 살펴보고, 나에게 어울리는 커리어 방향을 찾아보세요.</p><div class="hero-actions"><button class="primary" onclick="startTest()">진단 시작하기&nbsp; →</button>${saved?'<button class="text-button" onclick="showSaved()">이전 결과 보기</button>':''}</div><div class="saved-note">10개 질문 · 문항별 최대 2개 선택 · 약 3~5분</div></div><div class="hero-visual"><div class="visual-circle one"></div><div class="visual-circle two"></div><div class="visual-circle three"></div><div class="compass">✧</div><div class="float-card fc1">새로운 시도</div><div class="float-card fc2">논리적 탐구</div><div class="float-card fc3">함께하는 성장</div><div class="float-card fc4">체계적 실행</div></div></section>`;
+}
+function startTest(){index=0;answers=Array(10).fill(null);scores=[0,0,0,0];prepareQuestions();renderQuestion()}
+function renderQuestion(){
+ const q=questions[index],chosen=answers[index]||[];
+ app.innerHTML=`<div class="progress-wrap"><div class="progress-meta"><span>CAREER DIAGNOSIS</span><span>${index+1} / 10</span></div><div class="track"><div class="fill" style="width:${(index+1)*10}%"></div></div></div>
+ <div class="question-head"><div class="qnum">QUESTION ${String(index+1).padStart(2,"0")}</div><h2 class="question">${q.q}</h2><p class="instruction">가장 나와 가까운 답을 최대 2개까지 선택해 주세요.</p></div>
+ <div class="choices">${q.a.map((a,i)=>`<button class="choice ${chosen.includes(i)?'selected':''}" aria-pressed="${chosen.includes(i)}" onclick="toggleChoice(${i})"><span class="check">✓</span><span class="choice-copy">${a.text}</span></button>`).join("")}</div>
+ <div class="nav"><button class="back" onclick="previous()" ${index===0?"disabled":""}>← 이전</button><button class="primary next" onclick="next()" ${chosen.length===0?"disabled":""}>${index===9?"결과 확인하기 →":"다음 문항 →"}</button></div>`;
+}
+function toggleChoice(i){let chosen=answers[index]||[];if(chosen.includes(i))chosen=chosen.filter(x=>x!==i);else if(chosen.length<2)chosen=[...chosen,i];answers[index]=chosen;renderQuestion()}
+function previous(){if(index>0){index--;renderQuestion()}}
+function next(){if(!(answers[index]||[]).length)return;if(index<9){index++;renderQuestion()}else calculateResult()}
+function calculateResult(){
+ scores=[0,0,0,0];
+ answers.forEach((selected,qi)=>selected.forEach(ai=>questions[qi].a[ai].weight.forEach((v,i)=>scores[i]+=v)));
+ // 동점은 2순위 점수와 문항별 가중치 패턴을 반영해 결정
+ let order=[0,1,2,3].sort((a,b)=>scores[b]-scores[a]);
+ const total=scores.reduce((a,b)=>a+b,0)||1;
+ const result={scores:[...scores],primary:order[0],secondary:order[1],percent:scores.map(v=>Math.round(v/total*100)),date:new Date().toISOString()};
+ lastResult=result;
+ try{localStorage.setItem(STORE_KEY,JSON.stringify(result))}catch(e){/* 저장이 제한되어도 결과 화면은 표시 */}
+ renderResult(result,false);
+}
+function showSaved(){saved=readSaved();if(saved)renderResult(saved,true);else intro()}
+function renderResult(result,isSaved){
+ const p=personas[result.primary],second=personas[result.secondary];
+ const highest=Math.max(...result.scores),tied=result.scores.filter(v=>v===highest).length>1;
+ app.innerHTML=`${isSaved?'<div class="saved-banner"><span>저장된 이전 진단 결과를 불러왔습니다.</span><button class="text-button" onclick="startTest()">새로 진단하기</button></div>':''}
+ <div class="section-kicker">${isSaved?'SAVED CAREER PROFILE':'YOUR CAREER PROFILE'}</div>
+ <div class="result-grid">
+  <section class="result-main"><div class="persona-icon">${p.icon}</div><div><div class="persona-label">${p.label}</div><div class="persona-name">${p.name}</div><p class="persona-desc">${p.desc}</p></div></section>
+  <section class="result-block"><h3 class="block-title">나의 핵심 강점</h3><div class="pills">${p.strength.map(s=>`<span class="pill">${s}</span>`).join("")}</div><h3 class="block-title" style="margin-top:20px">잘 맞을 수 있는 환경</h3><p class="growth">${p.environment}</p></section>
+  <section class="result-block"><h3 class="block-title">추천 직무 3가지</h3>${p.jobs.map((j,i)=>`<div class="job">${i+1}. ${j}</div>`).join("")}</section>
+  <section class="result-block"><h3 class="block-title">성향 조합 분석</h3><p class="growth">주요 성향은 <b>${p.name}</b>이며, 보조 성향은 <b>${second.name}</b>입니다. 한 가지 유형만으로 설명하기보다 두 성향이 함께 나타나는 방식으로 이해해 보세요.</p>${personas.map((x,i)=>`<div class="score-row"><div class="score-meta"><span>${x.name}</span><b>${result.percent[i]}%</b></div><div class="score-track"><div class="score-fill" style="width:${result.percent[i]}%"></div></div></div>`).join("")}</section>
+  <section class="result-block"><h3 class="block-title">다음 성장을 위한 제안</h3><p class="growth">${p.growth}</p></section>
+ </div>
+ <div class="disclaimer">이 진단은 자기이해와 커리어 탐색을 위한 참고 도구입니다. 직무 적합성이나 실제 업무 성과를 확정적으로 예측하지 않습니다. 결과는 이 브라우저의 로컬 저장소에 보관되며, 같은 브라우저에서 다시 열면 확인할 수 있습니다.</div>
+ <div class="result-actions"><button class="primary" onclick="copyResult()">결과 복사</button><button class="secondary" onclick="startTest()">다시 테스트하기</button><button class="secondary" onclick="intro()">처음 화면으로</button></div>`;
+}
+function copyResult(){
+ const r=readSaved()||lastResult;if(!r)return;
+ const p=personas[r.primary],s=personas[r.secondary];
+ const text=`[커리어 성향 진단 결과]\n주요 유형: ${p.name}\n보조 유형: ${s.name}\n${p.desc}\n\n핵심 강점: ${p.strength.join(", ")}\n추천 직무: ${p.jobs.join(", ")}\n성향 분포: ${personas.map((x,i)=>x.name+" "+r.percent[i]+"%").join(" / ")}\n성장 제안: ${p.growth}`;
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>alert("결과를 복사했습니다."),()=>fallbackCopy(text))}else fallbackCopy(text)
+}
+function fallbackCopy(text){let ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");alert("결과를 복사했습니다.")}catch(e){alert(text)}ta.remove()}
+// 일부 로컬 파일 실행 환경에서 인라인 이벤트 핸들러가 함수를 찾지 못하는 경우를 방지
+window.startTest=startTest;
+window.toggleChoice=toggleChoice;
+window.previous=previous;
+window.next=next;
+window.showSaved=showSaved;
+window.calculateResult=calculateResult;
+window.copyResult=copyResult;
+window.intro=intro;
+
+intro();
+</script>
+</body>
+</html>
