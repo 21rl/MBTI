@@ -44,14 +44,14 @@ h2{font-size:clamp(23px,3vw,30px);line-height:1.35;letter-spacing:-.04em;color:v
 .fill{height:100%;width:10%;background:linear-gradient(90deg,var(--blue),#77bce7);border-radius:20px;transition:width .25s}
 .question-head{margin-bottom:22px}.qnum{font-size:11px;font-weight:850;color:var(--blue);letter-spacing:.14em;margin-bottom:9px}
 .question{font-size:clamp(22px,3.5vw,29px);font-weight:850;line-height:1.35;letter-spacing:-.045em;color:var(--navy);margin:0 0 9px}
-.instruction{font-size:13px;color:var(--muted);margin:0}
+.instruction{font-size:15px;color:var(--muted);margin:0}
 .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.choice{width:100%;min-height:88px;text-align:left;padding:15px 16px;border:1px solid var(--line);background:#fff;border-radius:14px;display:flex;gap:12px;align-items:flex-start;color:var(--ink);transition:.16s}
+.choice{width:100%;min-height:100px;text-align:left;padding:15px 16px;border:1px solid var(--line);background:#fff;border-radius:14px;display:flex;gap:12px;align-items:flex-start;color:var(--ink);transition:.16s}
 .choice:hover{border-color:#9fc8e4;background:#fafdff}
 .choice.selected{border:2px solid var(--blue);padding:14px 15px;background:#f0f8fe;box-shadow:0 0 0 3px #dceffc}
 .check{width:22px;height:22px;flex:0 0 22px;border:1.5px solid #b7c9d8;border-radius:7px;display:grid;place-items:center;color:transparent;font-size:14px;font-weight:900;margin-top:1px}
 .choice.selected .check{background:var(--blue);border-color:var(--blue);color:#fff}
-.choice-copy{font-size:14px;font-weight:650;line-height:1.55}
+.choice-copy{font-size:17px;font-weight:650;line-height:1.65}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:25px}
 .back{border:0;background:transparent;color:var(--muted);padding:12px 4px;font-weight:700}
 .next{min-width:140px}.next:disabled{opacity:.4;cursor:not-allowed;transform:none}
@@ -65,7 +65,7 @@ h2{font-size:clamp(23px,3vw,30px);line-height:1.35;letter-spacing:-.04em;color:v
 .block-title{font-size:14px;font-weight:850;color:var(--navy);margin:0 0 12px}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
 .pill{font-size:12px;font-weight:750;color:#32658b;background:#edf6fc;border:1px solid #e1eff8;border-radius:30px;padding:7px 10px}
-.job{padding:11px 12px;border:1px solid var(--line);border-radius:10px;font-size:13px;font-weight:700;margin-top:8px;background:#fbfdff}
+.job{padding:12px 13px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-weight:700;margin-top:8px;background:#fbfdff}
 .score-row{margin-top:12px}.score-meta{display:flex;justify-content:space-between;font-size:12px;color:#536c80;margin-bottom:5px}.score-track{height:6px;border-radius:10px;background:#edf2f6;overflow:hidden}.score-fill{height:100%;background:#5b9dca;border-radius:10px}
 .growth{font-size:13px;color:#5c7184;line-height:1.8;margin:0}
 .result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
@@ -79,7 +79,7 @@ h2{font-size:clamp(23px,3vw,30px);line-height:1.35;letter-spacing:-.04em;color:v
  .visual-circle.one{width:190px;height:190px}.visual-circle.two{width:140px;height:140px}.visual-circle.three{width:90px;height:90px}
  .compass{width:82px;height:82px;border-radius:25px;font-size:39px}
  .fc1{top:12%;left:5%}.fc2{right:5%;top:15%}.fc3{left:6%;bottom:10%}.fc4{right:6%;bottom:9%}
- .choices{grid-template-columns:1fr;gap:9px}.choice{min-height:70px;padding:13px}.choice.selected{padding:12px}
+ .choices{grid-template-columns:1fr;gap:9px}.choice{min-height:84px;padding:15px}.choice.selected{padding:12px}
  .result-grid{grid-template-columns:1fr;gap:13px}.result-main{grid-column:auto;padding:18px;align-items:flex-start}
  .persona-icon{width:62px;height:62px;flex-basis:62px;border-radius:19px;font-size:30px}
  .result-actions>*{flex:1}.progress-wrap{margin-top:-4px}
@@ -208,7 +208,7 @@ function renderResult(result,isSaved){
  <div class="section-kicker">${isSaved?'SAVED CAREER PROFILE':'YOUR CAREER PROFILE'}</div>
  <div class="result-grid">
   <section class="result-main"><div class="persona-icon">${p.icon}</div><div><div class="persona-label">${p.label}</div><div class="persona-name">${p.name}</div><p class="persona-desc">${p.desc}</p></div></section>
-  <section class="result-block"><h3 class="block-title">나의 핵심 강점</h3><div class="pills">${p.strength.map(s=>`<span class="pill">${s}</span>`).join("")}</div><h3 class="block-title" style="margin-top:20px">잘 맞을 수 있는 환경</h3><p class="growth">${p.environment}</p></section>
+  <section class="result-block"><h3 class="block-title">나의 핵심 강점</h3><div class="pills">${p.strengths.map(s=>`<span class="pill">${s}</span>`).join("")}</div><h3 class="block-title" style="margin-top:20px">잘 맞을 수 있는 환경</h3><p class="growth">${p.environment}</p></section>
   <section class="result-block"><h3 class="block-title">추천 직무 3가지</h3>${p.jobs.map((j,i)=>`<div class="job">${i+1}. ${j}</div>`).join("")}</section>
   <section class="result-block"><h3 class="block-title">성향 조합 분석</h3><p class="growth">주요 성향은 <b>${p.name}</b>이며, 보조 성향은 <b>${second.name}</b>입니다. 한 가지 유형만으로 설명하기보다 두 성향이 함께 나타나는 방식으로 이해해 보세요.</p>${personas.map((x,i)=>`<div class="score-row"><div class="score-meta"><span>${x.name}</span><b>${result.percent[i]}%</b></div><div class="score-track"><div class="score-fill" style="width:${result.percent[i]}%"></div></div></div>`).join("")}</section>
   <section class="result-block"><h3 class="block-title">다음 성장을 위한 제안</h3><p class="growth">${p.growth}</p></section>
@@ -219,7 +219,7 @@ function renderResult(result,isSaved){
 function copyResult(){
  const r=readSaved()||lastResult;if(!r)return;
  const p=personas[r.primary],s=personas[r.secondary];
- const text=`[커리어 성향 진단 결과]\n주요 유형: ${p.name}\n보조 유형: ${s.name}\n${p.desc}\n\n핵심 강점: ${p.strength.join(", ")}\n추천 직무: ${p.jobs.join(", ")}\n성향 분포: ${personas.map((x,i)=>x.name+" "+r.percent[i]+"%").join(" / ")}\n성장 제안: ${p.growth}`;
+ const text=`[커리어 성향 진단 결과]\n주요 유형: ${p.name}\n보조 유형: ${s.name}\n${p.desc}\n\n핵심 강점: ${p.strengths.join(", ")}\n추천 직무: ${p.jobs.join(", ")}\n성향 분포: ${personas.map((x,i)=>x.name+" "+r.percent[i]+"%").join(" / ")}\n성장 제안: ${p.growth}`;
  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(()=>alert("결과를 복사했습니다."),()=>fallbackCopy(text))}else fallbackCopy(text)
 }
 function fallbackCopy(text){let ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");alert("결과를 복사했습니다.")}catch(e){alert(text)}ta.remove()}
